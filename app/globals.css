@@ -1,30 +1,105 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@layer base {
+  @font-face {
+    font-family: "FritzRegular";
+    src: url("/assets/Fonts/FritzRegular.otf") format("opentype"); /* ✅ absolute */
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
 }
 
-@theme inline {
+  :root {
+    --clr-primary: #29221d;
+    --clr-primar-light: #473b33;
+    --clr-secondary: #1e1611;
+    --clr-white: #fff;
+    --clr-black: #000;
+    --clr-pumpkin: #fe6c00;
+    --clr-silver: #a8a5a6;
+    --clr-silver-v1: #bdbabb;
+    --clr-scarlet: #fe1e00;
+    --clr-scarlet-v1: rgb(254, 30, 0, 0.79);
+    --clr-green: #00fe93;
+    --clr-yellow: #fec80a;
+    --clr-jet: #302924;
+    --clr-peach: #ffc397;
+    --font-family-bai: "Bai Jamjuree", sans-serif;
+    --transition-default: all 300ms ease-in-out;
+  }
+
+/* @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
+} */
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+} */
 
-body {
+/* body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+} */
+
+body{
+  font-family: 'fritz-regular';
+  background-color: black;
 }
 
+/* -------------- */
+*{
+  scroll-behavior: smooth;
+}
+
+#charters-section1{
+  background-image: url(/assets/images/image-2.jpg);
+  background-repeat: no-repeat;
+  background-position: 0% 66%;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+#charters-section2{
+  background-image: url(/assets/images/image-4.jpg);
+  background-repeat: no-repeat;
+  background-position: 0% 55%;
+  background-size: cover;
+}
+
+#charters-section3{
+  background-image: url(/assets/images/image-1.jpg);
+  background-repeat: no-repeat;
+  background-position: 0% 43%;
+  background-size: cover;
+}
+
+#charters-section5{
+  background-image: url(/assets/images/image-5.jpg);
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: contain;
+  background-attachment: fixed;
+}
+
+
+@media(max-width:830px){
+  #charters-section1{
+      background-position: 45% 70%;
+      background-size: 200%;
+  }
+}
+
+.text-shadow{
+  text-shadow: rgb(255, 252, 252) 1px 1px;
+}
 
 #bg {
   background-image: url(/bg.jpg);
@@ -32,4 +107,18 @@ body {
   background-position: left 27%;
   background-size: cover;
   background-attachment: fixed;
+}
+
+@media(max-width:1000px){
+  #bg{
+      background-position: left 0%;
+  }
+}
+
+@media(max-width:700px){
+  #bg{
+      background-position: left -60%;
+      background-size: 100% 100%;
+  }
+ 
 }

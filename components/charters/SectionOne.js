@@ -82,27 +82,18 @@ export default function SectionOne({ index }) {
           id="paragraph"
           className="flex-[67%] pe-6 break-all overflow-auto flex flex-col justify-between items-center text-sm h-full"
         >
-          {!readMore ? (
-            <p>
-              {text.length > 800 ? (
-                <>
-                  {text.slice(0, 800)}
-                  <span onClick={() => setReadMore(true)} className="text-[#D79B2A] block">
-                    Read more ...
-                  </span>
-                </>
-              ) : (
-                text
-              )}
-            </p>
-          ) : (
-            <div>
-              <p className="pb-4">{text}</p>
-              <p className="text-[#D79B2A] block" onClick={() => setReadMore(false)}>
-                Read less...
-              </p>
-            </div>
-          )}
+        { readMore === false && <p>{ arr[index]?.textOne?.length > 800 ? 
+            <>
+            {arr[index]?.textOne?.slice(0, 800) }
+            <span onClick={()=>setReadMore(true)} className='text-[#D79B2A] block'>Read more ...</span>
+            </>
+            : arr[index]?.textOne}</p>}
+           { readMore && 
+           <div className="">
+              <p className="pb-4 ">{arr[index]?.textOne}</p>
+              <p className='text-[#D79B2A] block' onClick={()=>setReadMore(false)}>Read less...</p>
+           </div>
+          }
         </div>
       </div>
     </section>

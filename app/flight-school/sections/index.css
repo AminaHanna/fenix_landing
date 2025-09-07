@@ -1,0 +1,21 @@
+#section1{
+    background-image: url(/src/assets/images/flight-school/image-5.jpg);
+    background-repeat: no-repeat;
+    background-position: 0% 25%;
+    background-size: cover;
+    background-attachment: fixed;
+}
+#section3{
+    background-image: url(/src/assets/images/flight-school/image-2.jpg);
+    background-repeat: no-repeat;
+    background-position: 0% 0%;
+    background-size: cover;
+    /* background-attachment: fixed; */
+}
+#section-5{
+    background-image: url(/src/assets/images/flight-school/img-3.png);
+    background-repeat: no-repeat;   
+
+    background-size: contain;
+    /* background-attachment: fixed; */
+}
