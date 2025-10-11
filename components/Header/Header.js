@@ -6,31 +6,44 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { CgClose } from "react-icons/cg";
+import { useLocation } from "next/navigation";
+import { CgClose, CgMenuMotion } from "react-icons/cg";
+import { FiMenu } from "react-icons/fi";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
-import LinkLists from "../components/LinkLists";
+import LinkLists from "./LinkLists";
+import axios from "axios";
+import { SERVER_URL } from "../../api/baseUrl";
 
 gsap.registerPlugin(useGSAP);
 
 function Header({ setContactForm }) {
+  const [path, setPath] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [toggleVisibleContactState, setToggleVisibleContactState] = useState(false);
   const [toggleBookingMenu, setToggleBookingMenu] = useState(false);
   const [activeSection, setActiveSection] = useState("");
-
+  const [count, setCount] = useState(0); // Default to 0
+  console.log(activeSection, "activeSection");
   const router = useRouter();
+
+  useEffect(() => {
+    const setHash = () => setPath(window.location.hash || "");
+    setHash();
+    window.addEventListener("hashchange", setHash);
+    return () => window.removeEventListener("hashchange", setHash);
+  }, []);
 
   const headerList = useRef(null);
   const indicators = useRef(null);
   const logoRef = useRef(null);
   const sidebar = useRef(null);
   const sidebarController = useRef(null);
-  const headerRef = useRef(null);
+  const headerRef = useRef();
 
-  // init animations
   useGSAP(
     () => {
-      if (headerList.current) {
+      headerList &&
+        headerList.current &&
         gsap.from(headerList.current.children, {
           y: 20,
           duration: 1,
@@ -38,28 +51,25 @@ function Header({ setContactForm }) {
           stagger: 0.1,
           opacity: 0,
         });
-      }
 
-      if (indicators.current) {
-        gsap.from(indicators.current.children, {
-          y: 20,
-          duration: 1,
-          delay: 0.5,
-          stagger: 0.1,
-          opacity: 0,
-        });
-      }
+      gsap.from(indicators.current.children, {
+        y: 20,
+        duration: 1,
+        delay: 0.5,
+        stagger: 0.1,
+        opacity: 0,
+      });
 
-      if (logoRef.current) {
-        gsap.from(logoRef.current, {
-          y: 20,
-          duration: 1,
-          delay: 0.5,
-          opacity: 0,
-        });
-      }
+      gsap.from(logoRef.current, {
+        y: 20,
+        duration: 1,
+        delay: 0.5,
+        stagger: 0.1,
+        opacity: 0,
+      });
 
       sidebarController.current = gsap.timeline({ paused: true });
+
       sidebarController.current.to(sidebar.current, {
         position: "fixed",
         top: 0,
@@ -73,19 +83,21 @@ function Header({ setContactForm }) {
         opacity: 1,
       });
     },
-    { scope: headerRef }
+    { scope: headerRef.current }
   );
 
-  const toggleSidebar = () => sidebarController.current?.play();
-  const closeSidebar = () => sidebarController.current?.reverse();
+  const toggleSidebar = () => {
+    sidebarController.current.play();
+  };
 
-  const toggleMenu = () => setIsVisible((v) => !v);
+  const closeSidebar = () => {
+    sidebarController.current.reverse();
+  };
+
+  const toggleMenu = () => setIsVisible(!isVisible);
   const handletoggleVisibleContact = () =>
-    setToggleVisibleContactState((v) => !v);
-  const handleToggleBookingMenu = () =>
-    setToggleBookingMenu((v) => !v);
+    setToggleVisibleContactState(!toggleVisibleContactState);
 
-  // active section tracking (same logic, Next.js friendly)
   function getFullHeight() {
     return Math.max(
       document.body.scrollHeight,
@@ -98,7 +110,7 @@ function Header({ setContactForm }) {
       const totalHeight = getFullHeight();
       const scrollPosition = window.scrollY;
       const viewportHeight = window.innerHeight;
-      const sectionHeight = totalHeight / 6; // unused, kept if you need it later
+      const sectionHeight = totalHeight / 6;
 
       const currentSectionIndex = Math.floor(scrollPosition / viewportHeight);
       const newActiveSection = `#charters-section${currentSectionIndex + 1}`;
@@ -108,9 +120,31 @@ function Header({ setContactForm }) {
       }
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, [activeSection]);
+
+  const handleToggleBookingMenu = () => {
+    setToggleBookingMenu(!toggleBookingMenu);
+  };
+
+  // useEffect(() => {
+  //   fetchCount();
+  // }, []);
+
+  // const fetchCount = async () => {
+  //   try {
+  //     // Adjust SERVER_URL as needed for your Next.js setup
+  //     const response = await axios.get(`${process.env.SERVER_URL || 'http://localhost:5000'}/admin/remaining-flight-count`);
+  //     setCount(response?.data?.result?.[0]?.count || 0);
+  //   } catch (error) {
+  //     console.error(error?.response?.data?.message || error?.message || 'Failed to fetch count');
+  //     // toast.error(error?.response?.data?.message || error?.message || 'Failed to fetch count');
+  //   }
+  // };
 
   return (
     <>
@@ -118,31 +152,38 @@ function Header({ setContactForm }) {
         ref={headerRef}
         className="fixed top-0 left-0 right-0 w-full px-6 items-center 1300px:h-[140px] h-[120px] bg-black/70 z-50 text-white flex justify-between"
       >
-        {/* dots (desktop) */}
         <div
           onClick={toggleMenu}
           ref={indicators}
           className="w-[30px] 830px:flex hidden flex-col gap-2"
         >
-          <button className="w-2 h-2 bg-[#D79B2A] rounded-full" aria-label="dot-1" />
-          <button className="w-2 h-2 bg-[#D79B2A] rounded-full" aria-label="dot-2" />
-          <button className="w-2 h-2 bg-[#D79B2A] rounded-full" aria-label="dot-3" />
-          <button className="w-2 h-2 bg-[#D79B2A] rounded-full" aria-label="dot-4" />
+          <a
+            onClick={toggleMenu}
+            className="w-2 cursor-pointer h-2 bg-[#D79B2A] rounded-full"
+          ></a>
+          <a
+            onClick={toggleMenu}
+            className="w-2 cursor-pointer h-2 bg-[#D79B2A] rounded-full"
+          ></a>
+          <a
+            onClick={toggleMenu}
+            className="w-2 cursor-pointer h-2 bg-[#D79B2A] rounded-full"
+          ></a>
+          <a
+            onClick={toggleMenu}
+            className="w-2 cursor-pointer h-2 bg-[#D79B2A] rounded-full"
+          ></a>
         </div>
-
-        {/* mobile hamburger (your dotted style) */}
         <div className="w-full 830px:hidden block" onClick={toggleSidebar}>
-          <div className="w-2 mb-1 h-2 bg-[#D79B2A] rounded-full" />
-          <div className="w-2 mb-1 h-2 bg-[#D79B2A] rounded-full" />
-          <div className="w-2 mb-1 h-2 bg-[#D79B2A] rounded-full" />
-          <div className="w-2 h-2 bg-[#D79B2A] rounded-full" />
+          <div className="w-2 mb-1 cursor-pointer h-2 bg-[#D79B2A] rounded-full"></div>
+          <div className="w-2 mb-1 cursor-pointer h-2 bg-[#D79B2A] rounded-full"></div>
+          <div className="w-2 mb-1 cursor-pointer h-2 bg-[#D79B2A] rounded-full"></div>
+          <div className="w-2 cursor-pointer h-2 bg-[#D79B2A] rounded-full"></div>
         </div>
-
-        {isVisible && (
-          <ul
-            ref={headerList}
-            className="830px:flex hidden transition-all ease-in-out py-3 text-base font-fritz-regular flex-1 justify-start gap-5 items-center text-white"
-          >
+        <ul
+          ref={headerList}
+          className="830px:flex hidden transition-all ease-in-out py-3 text-base font-fritz-regular flex-1 justify-start gap-5 items-center text-white"
+        >
             <LinkLists title={"Home"} hrefNavigateId={"/"} key={"home"} />
 
             <LinkLists
@@ -175,7 +216,7 @@ function Header({ setContactForm }) {
               } hover:text-[#D79B2A]`}
             >
               <div
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 "
                 onClick={handletoggleVisibleContact}
               >
                 <p>Contact Us</p>
@@ -185,26 +226,25 @@ function Header({ setContactForm }) {
                   <IoMdArrowDropup />
                 )}
               </div>
-
               {toggleVisibleContactState && (
-                <div className="absolute top-6 left-0">
-                  <ul className="flex flex-col text-[14px] text-white/80 gap-0">
+                <div className="  absolute top-6 left-0 h-full">
+                  <ul className="flex  flex-col text-[14px] text-white/80 gap-0">
                     <a
                       className="hover:text-[#D79B2A]"
                       href="#charters-section4"
-                      onClick={() => setContactForm?.(true)}
+                      onClick={() => setContactForm(true)}
                     >
                       Enquiry
                     </a>
                     <a
-                      className="flex items-center gap-1 hover:text-[#D79B2A]"
+                      className="flex items-center gap-1 relative hover:text-[#D79B2A]"
                       href="#charters-section4"
                       onClick={() => {
-                        setContactForm?.(false);
+                        setContactForm(false);
                         handleToggleBookingMenu();
                       }}
                     >
-                      <label>Booking</label>
+                      <label htmlFor="">Booking</label>
                       {!toggleBookingMenu ? (
                         <IoMdArrowDropdown size={20} className="mt-1" />
                       ) : (
@@ -213,10 +253,10 @@ function Header({ setContactForm }) {
                     </a>
 
                     {toggleBookingMenu && (
-                      <div className="text-sm flex flex-col absolute top-14 left-5 backdrop-blur-sm rounded px-4 py-2 w-[150px]">
-                        <label>One Way</label>
-                        <label>Round Trip</label>
-                        <label>Multi Leg</label>
+                      <div className=" text-sm flex flex-col absolute top-14 left-5 backdrop-blur-sm rounded px-4 py-2 w-[150px]">
+                        <label htmlFor="">One Way</label>
+                        <label htmlFor="">Round Trip</label>
+                        <label htmlFor="">Multi Leg</label>
                       </div>
                     )}
                   </ul>
@@ -232,35 +272,34 @@ function Header({ setContactForm }) {
               key={"#charters-section5"}
             />
           </ul>
-        )}
-
-        {/* logo */}
-        <div className="w-[160px] h-full cursor-pointer">
-          <Image
-            onClick={() => router.push("/")}
-            ref={logoRef}
-            src="/assets/images/logo.svg"
-            alt="Fenix Air"
-            width={160}
-            height={64}
-            className="w-full h-full object-contain"
-            priority
-          />
+        <div className=" flex  items-center ">
+          <div className="flex items-center justify-center text-[12px] font-fritz-regular font-medium rounded-full mt-7 me-2 bg-[#D79B2A] w-8 p-1 h-8">
+            {count}
+          </div>
+          <div className="w-[160px] h-full cursor-pointer">
+            <Image
+              onClick={() => router.push("/")}
+              ref={logoRef}
+              className="w-full h-full object-contain"
+              src="/assets/images/logo.svg"
+              alt="Fenix Air"
+              width={160}
+              height={64}
+              priority
+            />
+          </div>
         </div>
       </header>
 
-      {/* mobile sidebar overlay */}
-      <div ref={sidebar} className="w-full h-screen opacity-0 hidden">
-        <button
-          className="p-2 rounded-full cursor-pointer overflow-hidden absolute top-11 left-5"
+      <div ref={sidebar} className="w-full opacity-0 relative hidden">
+        <p
+          className=" p-2 rounded-full cursor-pointer overflow-hidden absolute top-11 left-5"
           onClick={closeSidebar}
-          aria-label="Close menu"
         >
           <CgClose color="#fff" size={24} />
-        </button>
-
-        <ul className="text-white/70 flex justify-start items-start ps-8 pt-24 flex-col gap-2 text-[20px] font-fritz-regular h-full">
-          <LinkLists title={"Home"} hrefNavigateId={"/"} key={"home-m"} />
+        </p>
+        <ul className="text-white/70 flex justify-start items-start ps-8 pt-24 flex gap-2 text-[20px] font-fritz-regular h-full">
+          <LinkLists title={"Home"} hrefNavigateId={"/"} key={"home"} />
 
           <LinkLists
             handleOnClickFunction={closeSidebar}
@@ -268,7 +307,7 @@ function Header({ setContactForm }) {
             compareActiveSection={"#charters-section1"}
             title={"About Us"}
             hrefNavigateId={"#charters-section1"}
-            key={"#charters-section1-m"}
+            key={"#charters-section1"}
           />
 
           <LinkLists
@@ -277,7 +316,7 @@ function Header({ setContactForm }) {
             compareActiveSection={"#charters-section2"}
             title={"Aircraft Categories"}
             hrefNavigateId={"#charters-section2"}
-            key={"#charters-section2-m"}
+            key={"#charters-section2"}
           />
 
           <LinkLists
@@ -286,7 +325,7 @@ function Header({ setContactForm }) {
             compareActiveSection={"#charters-section3"}
             title={"Affiliate Services"}
             hrefNavigateId={"#charters-section3"}
-            key={"#charters-section3-m"}
+            key={"#charters-section3"}
           />
 
           <li
@@ -295,7 +334,7 @@ function Header({ setContactForm }) {
             } hover:text-[#D79B2A]`}
           >
             <div
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 "
               onClick={handletoggleVisibleContact}
             >
               <p>Contact Us</p>
@@ -305,29 +344,27 @@ function Header({ setContactForm }) {
                 <IoMdArrowDropup />
               )}
             </div>
-
             {toggleVisibleContactState && (
-              <ul className="flex flex-col text-[15px] text-white/80 my-0">
+              <ul className="flex flex-col text-[15px] text-white/80  my-0">
                 <a
                   className="hover:text-[#D79B2A]"
                   href="#charters-section4"
                   onClick={() => {
-                    setContactForm?.(true);
+                    setContactForm(true);
                     closeSidebar();
                   }}
                 >
                   Enquiry
                 </a>
-
                 <a
                   className="flex items-center hover:text-[#D79B2A]"
                   href="#charters-section4"
                   onClick={() => {
-                    setContactForm?.(false);
+                    setContactForm(false);
                     handleToggleBookingMenu();
                   }}
                 >
-                  <label>Booking</label>
+                  <label htmlFor="">Booking</label>
                   {!toggleBookingMenu ? (
                     <IoMdArrowDropdown size={20} className="mt-1" />
                   ) : (
@@ -336,10 +373,10 @@ function Header({ setContactForm }) {
                 </a>
 
                 {toggleBookingMenu && (
-                  <div className="text-sm flex flex-col absolute top-14 left-20 backdrop-blur-sm rounded px-4 py-2 w-[150px]">
-                    <label>One Way</label>
-                    <label>Round Trip</label>
-                    <label>Multi Leg</label>
+                  <div className=" text-sm flex flex-col absolute top-14 left-20 backdrop-blur-sm rounded px-4 py-2 w-[150px]">
+                    <label htmlFor="">One Way</label>
+                    <label htmlFor="">Round Trip</label>
+                    <label htmlFor="">Multi Leg</label>
                   </div>
                 )}
               </ul>
@@ -352,7 +389,7 @@ function Header({ setContactForm }) {
             compareActiveSection={"#charters-section5"}
             title={"FAQ"}
             hrefNavigateId={"#charters-section5"}
-            key={"#charters-section5-m"}
+            key={"#charters-section5"}
           />
         </ul>
       </div>

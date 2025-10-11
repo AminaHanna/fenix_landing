@@ -1,15 +1,48 @@
 "use client";
 
-import React from "react";
-import "./index.css";
+import React, { useEffect, useRef, useState } from 'react'
 
-export default function SectionSix() {
+function SectionSix() {
+
+  const [bgFixed, setBgFixed] = useState(false);
+  const divRef = useRef(null);
+
+
+  const handleScroll = () => {
+    if (divRef.current) {
+      const { top, bottom } = divRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      // Check if the element is starting to scroll into view
+      if (top <= windowHeight && bottom >= 0) {
+        setBgFixed(false);
+      }
+
+      // Check if the element's top position is at the top of the viewport
+      if (top <= 0) {
+        setBgFixed(true);
+      }
+
+      // Check if the element is out of view
+      if (bottom < 0 || top > windowHeight) {
+        setBgFixed(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+
   return (
-    <section className="relative text-white bg-white flex font-fritz-regular w-full h-screen">
-      <p className="830px:text-[25px] text-[24px] absolute 830px:p-0 p-[16px] 830px:top-40 top-36 left-6 right-6 text-black max-w-[400px] font-light font-fritz-regular text-3xl w-[88%]">
-        Meet Our Team
-      </p>
-      <div id="section6" className="w-full h-full bg-fixed" />
-    </section>
-  );
+    <section className="relative text-white font-fritz-regular w-full h-screen">
+        <div ref={divRef} id="flight-school-section6" className={`w-full h-full ${bgFixed ? 'bg-fixed ' : ''} `}></div>
+      </section>
+  )
 }
+
+export default SectionSix

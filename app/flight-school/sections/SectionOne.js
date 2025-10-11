@@ -3,12 +3,10 @@
 import React, { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import Image from "next/image";
 import { FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
 import { PiInstagramLogo } from "react-icons/pi";
 import { MdFacebook } from "react-icons/md";
 import "./index.css";
-// change this to where your data lives
 import { flightSchoolContent } from "@/lib/data";
 
 export default function SectionOne({ index, currentIndex }) {
@@ -57,13 +55,10 @@ export default function SectionOne({ index, currentIndex }) {
         className="bg-black/70 z-50 h-[160px] px-6 fixed flex py-5 justify-between w-full bottom-0 left-0 right-0"
       >
         <div className="hidden flex-[38%] relative gap-2 h-full md:flex flex-col justify-end items-start">
-          <Image
-            src="/assets/images/ribbon.svg"
-            width={120}
-            height={120}
+          <img
+            src="/images/ribbon.svg"
             className="absolute -z-1 top-5 -left-10"
             alt="ribbon"
-            priority
           />
           <div className="absolute gap-2 h-full flex flex-col justify-end items-start">
             <FaWhatsapp className="bg-yellow-500 transition-all w-6 h-6 rounded-md p-1 cursor-pointer" color="#000" title="Whatsapp" />

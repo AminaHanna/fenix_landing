@@ -25,7 +25,6 @@ export default function SectionFour({ contactForm, setContactForm }) {
         autoPlay
         loop
         muted
-        playsInline
       />
 
       <div id="fourth-section" className="w-full absolute top-0 left-0 h-full">

@@ -11,6 +11,33 @@ export default function SectionFive() {
         <h5 className="text-base font-[100]">Why choose Us?</h5>
 
         <div className="text-sm mt-3">
+          <div className="flex gap-2 items-center">
+            <div className="w-2 cursor-pointer h-2 bg-[#D79B2A] rounded-full"></div>
+            <p>Comprehensive Training Programs</p>
+          </div>
+
+          <div className="flex gap-2 items-center">
+            <div className="w-2 cursor-pointer h-2 bg-[#D79B2A] rounded-full"></div>
+            <p>Experienced and Certified Instructors</p>
+          </div>
+
+          <div className="flex gap-2 items-center">
+            <div className="w-2 cursor-pointer h-2 bg-[#D79B2A] rounded-full"></div>
+            <p>Modern Fleet of Training Aircraft</p>
+          </div>
+
+          <div className="flex gap-2 items-center">
+            <div className="w-2 cursor-pointer h-2 bg-[#D79B2A] rounded-full"></div>
+            <p>Flexible Scheduling Options</p>
+          </div>
+
+          <div className="flex gap-2 items-center">
+            <div className="w-2 cursor-pointer h-2 bg-[#D79B2A] rounded-full"></div>
+            <p>Competitive Pricing</p>
+          </div>
+        </div>
+
+        {/* <div className="text-sm mt-3">
           {[
             "Comprehensive Training Programs",
             "Experienced and Certified Instructors",
@@ -23,7 +50,7 @@ export default function SectionFive() {
               <p>{t}</p>
             </div>
           ))}
-        </div>
+        </div> */}
 
         <p className="text-sm pt-4">
           Join us today and take the first step towards a rewarding and exciting future in aviation.
