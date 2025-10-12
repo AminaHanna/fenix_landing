@@ -7,12 +7,13 @@ import footerWindows from "../../../public/Windows.svg"
 function SectionSix() {
   return (
     <section className="relative text-white bg-white flex font-fritz-regular w-full h-screen">
-      <p
+      <h2
         className=" 830px:text-[25px] text-[24px] absolute 830px:p-0 p-[16px] backdrop-blur-[15px] 830px:backdrop-filter-none 830px:top-40 top-36 left-6 right-6  text-black justify-center font-light  font-fritz-regular text-3xl w-[88%]"
       >
         Meet Our Team
+      </h2>
 
-        <div id={'section6'} className={`flex disable-scroll-view gap-10 md:max-w-full justify-center items-center ps-0 sm:ps-20 w-full overflow-scroll md:overflow-auto mt-12 h-full bg-fixed`}>
+      <div id={'section6'} className={`flex disable-scroll-view gap-10 md:max-w-full justify-center items-center ps-0 sm:ps-20 w-full overflow-scroll md:overflow-auto mt-12 h-full bg-fixed absolute top-40`}>
           <div className="relative w-[200px]  flex-shrink-0 flex-grow-0 flex justify-center items-center">
             <img 
             // src={footerWindows} 
@@ -95,7 +96,6 @@ function SectionSix() {
 
 
         </div>
-      </p>
 
     </section>
   )
