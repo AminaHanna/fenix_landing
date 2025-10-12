@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import FlightHeader from "./Layouts/FlightHeader";
 import SectionOne from "./sections/SectionOne";
 import SectionTwo from "./sections/SectionTwo";
@@ -18,8 +18,7 @@ function FlightSchool() {
   // state for section two slider
   const [currentIndex, setCurrentIndex] = useState(0);
 
-
- 
+  const [contactForm, setContactForm] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,18 +52,14 @@ function FlightSchool() {
     };
   }, [lastScrollY, flightSchoolContent.length]);
 
- 
-
-
   return (
     <main>
       <FlightHeader />
-      
-      
+
       <SectionOne index={index} currentIndex={currentIndex} />
       <SectionTwo setCurrentIndex={setCurrentIndex} currentIndex={currentIndex} index={index} />
       <SectionThree  />
-      <SectionFour  />
+      <SectionFour contactForm={contactForm} setContactForm={setContactForm} />
       <SectionFive  />
       <SectionSix  />
     </main>

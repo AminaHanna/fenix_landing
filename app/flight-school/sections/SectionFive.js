@@ -1,9 +1,7 @@
 "use client";
-
-import React from "react";
 import "./index.css";
 
-export default function SectionFive() {
+function SectionFive() {
   return (
     <section id="section5" className="relative text-white flex flex-col 992px:flex-row font-fritz-regular w-full h-screen">
       <div className="ms-6 font-fritz-regular 992px:pt-40 pt-36">
@@ -37,7 +35,7 @@ export default function SectionFive() {
           </div>
         </div>
 
-        {/* <div className="text-sm mt-3">
+        <div className="text-sm mt-3">
           {[
             "Comprehensive Training Programs",
             "Experienced and Certified Instructors",
@@ -50,7 +48,7 @@ export default function SectionFive() {
               <p>{t}</p>
             </div>
           ))}
-        </div> */}
+        </div>
 
         <p className="text-sm pt-4">
           Join us today and take the first step towards a rewarding and exciting future in aviation.
@@ -62,3 +60,5 @@ export default function SectionFive() {
     </section>
   );
 }
+
+export default SectionFive;

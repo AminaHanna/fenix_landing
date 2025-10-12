@@ -247,7 +247,8 @@ function FlightHeader({ setContactForm }) {
             onClick={() => router.push("/")}
             ref={logoRef}
             className="w-full h-full object-contain"
-            src={logo}
+            // src={logo}
+            src="/assets/images/logo.svg"
             alt=""
           />
         </div>

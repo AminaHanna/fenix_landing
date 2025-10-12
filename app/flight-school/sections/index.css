@@ -17,12 +17,19 @@
     background-repeat: no-repeat;
     background-position: 0% 0%;
     background-size: cover;
-    /* background-attachment: fixed; */
+    background-attachment: fixed;
 }
 #section-5{
     background-image: url(/assets/images/flight-school/img-3.png);
-    background-repeat: no-repeat;   
-
+    background-repeat: no-repeat;
+    background-position: right bottom;
     background-size: contain;
-    /* background-attachment: fixed; */
+    background-attachment: fixed;
+}
+#flight-school-section6{
+    background-image: url(/assets/images/flight-school/image-4.jpg);
+    background-repeat: no-repeat;
+    background-position: 0% 0%;
+    background-size: cover;
+    background-attachment: fixed;
 }
