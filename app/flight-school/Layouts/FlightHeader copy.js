@@ -82,7 +82,6 @@ function FlightHeader({ setContactForm }) {
   const [toggleVisibleContactState, setToggleVisibleContactState] =
     useState(false);
   const [activeSection, setActiveSection] = useState(""); // State to track active section
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const pathname = usePathname();
 
@@ -138,9 +137,9 @@ function FlightHeader({ setContactForm }) {
         top: 0,
         left: 0,
         zIndex: 1111,
-        // backgroundColor: "#00000080",
+        backgroundColor: "#00000080",
         display: "block",
-        // backdropFilter: "blur(4px)",
+        backdropFilter: "blur(4px)",
         duration: 0.5,
         delay: 0.1,
         opacity: 1,
@@ -150,27 +149,14 @@ function FlightHeader({ setContactForm }) {
   );
 
   const toggleSidebar = () => {
-    if (isSidebarOpen) {
-      sidebarController.current.reverse(); // reverse animation to close sidebar
-      setIsSidebarOpen(false);
-    } else {
-      sidebarController.current.play(); // play animation to show sidebar
-      setIsSidebarOpen(true);
-    }
+    sidebarController.current.play(); // play animation to show sidebar
   };
 
   const closeSidebar = () => {
     sidebarController.current.reverse(); // reverse animation to close sidebar
-    setIsSidebarOpen(false);
   };
 
-  const toggleMenu = () => {
-    if (isSidebarOpen) {
-      closeSidebar();
-    } else {
-      setIsVisible(!isVisible);
-    }
-  };
+  const toggleMenu = () => setIsVisible(!isVisible);
   const handletoggleVisibleContact = () =>
     setToggleVisibleContactState(!toggleVisibleContactState);
 
@@ -225,27 +211,27 @@ function FlightHeader({ setContactForm }) {
         className="fixed top-0 left-0 right-0 w-full px-6 items-center 1300px:h-[140px] h-[120px] bg-black/70 z-50 text-white flex justify-between"
       >
         <div
-          onClick={closeSidebar}
+          onClick={toggleMenu}
           ref={indicators}
           className="w-[30px] 992px:flex hidden flex-col gap-2"
         >
           <a
-            onClick={closeSidebar}
+            onClick={toggleMenu}
             // href="#section1"
             className="w-2 cursor-pointer h-2 bg-[#D79B2A] rounded-full"
           ></a>
           <a
-            onClick={closeSidebar}
+            onClick={toggleMenu}
             // href="#section2"
             className="w-2 cursor-pointer h-2 bg-[#D79B2A] rounded-full"
           ></a>
           <a
-            onClick={closeSidebar}
+            onClick={toggleMenu}
             // href="#section3"
             className="w-2 cursor-pointer h-2 bg-[#D79B2A] rounded-full"
           ></a>
           <a
-            onClick={closeSidebar}
+            onClick={toggleMenu}
             // href="#section4"
             className="w-2 cursor-pointer h-2 bg-[#D79B2A] rounded-full"
           ></a>
@@ -270,7 +256,13 @@ function FlightHeader({ setContactForm }) {
 
       {/* mobile sidebar */}
       <div ref={sidebar} className="w-full opacity-0 elative hidden">
-        <ul className="text-white/70 flex justify-start items-start ps-15 pt-11 gap-2 text-[20px] font-fritz-regular h-full">
+        <p
+          className=" p-2 rounded-full cursor-pointer overflow-hidden absolute top-11 left-5"
+          onClick={closeSidebar}
+        >
+          <CgClose color="#fff" size={24} />
+        </p>
+        <ul className="text-white/70 flex justify-start items-start ps-8 pt-24 gap-2 text-[20px] font-fritz-regular h-full">
           <li
             onClick={closeSidebar}
             className="hover:scale-105 hover:text-[#D79B2A]"
