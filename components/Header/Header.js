@@ -75,9 +75,9 @@ function Header({ setContactForm }) {
         top: 0,
         left: 0,
         zIndex: 1111,
-        backgroundColor: "#00000080",
+        // backgroundColor: "#00000080",
         display: "block",
-        backdropFilter: "blur(4px)",
+        // backdropFilter: "blur(4px)",
         duration: 0.5,
         delay: 0.1,
         opacity: 1,
@@ -296,9 +296,9 @@ function Header({ setContactForm }) {
           className=" p-2 rounded-full cursor-pointer overflow-hidden absolute top-11 left-5"
           onClick={closeSidebar}
         >
-          <CgClose color="#fff" size={24} />
+          {/* <CgClose color="#fff" size={24} /> */}
         </p>
-        <ul className="text-white/70 flex justify-start items-start ps-8 pt-24 flex gap-2 text-[20px] font-fritz-regular h-full">
+        <ul className="text-white/70 flex justify-start items-start ps-15 pt-11 flex gap-2 text-[20px] font-fritz-regular h-full">
           <LinkLists title={"Home"} hrefNavigateId={"/"} key={"home"} />
 
           <LinkLists
